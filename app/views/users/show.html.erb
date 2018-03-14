@@ -44,6 +44,7 @@
           <div><%=favdirector.name %></div>
         <% end %>
       </div>
+      <%= link_to "Edit profile", edit_user_path, class: "btn-sm-default" %>
 
     </div>
 
@@ -66,5 +67,8 @@
     </div>
   </div>
   <br>
+    <div class="btn-group" role="group">
     <%= link_to "Back to Search Results", :back, class: "btn-back" %>
+
+    </div>
 </div>
