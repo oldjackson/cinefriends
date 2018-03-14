@@ -28,26 +28,30 @@
   <div class="display">
     <!-- <div class="row"> -->
       <% unless @movies.nil? || @movies.empty? %>
-      <div><h2>Your Results</h2></div>
-      <%= render 'film_grid', movies: @movies %>
+        <div><h2>Your Results</h2></div>
+        <%= render 'film_grid', movies: @movies %>
       <% else %>
-      <% unless @local_movies.nil? || @local_movies .empty? %>
-      <h2 class="on-dark">Near you</h2>
-      <br>
-      <%= render 'film_grid', movies: @local_movies[0..2]  %>
+        <% unless @local_movies.nil? || @local_movies .empty? %>
+          <h2 class="on-dark">Near you</h2>
+          <br>
+          <%= render 'film_grid', movies: @local_movies[0..2]  %>
+        <% end %>
+        <% unless @fav_movies.nil? || @fav_movies .empty? %>
+          <h2 class="on-dark">Favorite films</h2>
+          <br>
+          <%= render 'film_grid', movies: @fav_movies[0..2]  %>
+        <% end %>
+        <% unless @fav_dir_movies.nil? || @fav_dir_movies .empty? %>
+          <h2 class="on-dark">From favorite directors</h2>
+          <br>
+          <%= render 'film_grid', movies: @fav_dir_movies[0..2]  %>
+        <% end %>
       <% end %>
-      <% unless @fav_movies.nil? || @fav_movies .empty? %>
-      <h2 class="on-dark">Favorite films</h2>
-      <br>
-      <%= render 'film_grid', movies: @fav_movies[0..2]  %>
-      <% end %>
-      <% unless @fav_dir_movies.nil? || @fav_dir_movies .empty? %>
-      <h2 class="on-dark">From favorite directors</h2>
-      <br>
-      <%= render 'film_grid', movies: @fav_dir_movies[0..2]  %>
+
+      <% if (!@local_movies.nil? && @local_movies.empty?) || ((!@movies.nil? && @movies.empty?)) && params[:search] %>
+        <h2>No search results matching your query</h2>
       <% else %>
-      <h2 class="on-dark">No search results matching your query</h2>
-      <% end %>
+        <br>
       <% end %>
       <!-- </div> -->
     </div>
