@@ -1,0 +1,20 @@
+<div class="col-sm-4 col-sm-offset-4">
+<h2>Edit profile</h2>
+
+<%= simple_form_for [@user] do |f| %>
+  <div class="form-inputs">
+    <%= f.input :city, required: false %>
+    <%= f.input :fav_quote, label: 'My favourite quote', required: false %>
+    <%= f.input :about_me, label: 'About me', required: false %>
+    <%= f.input :photo %>
+    <%= f.input :photo_cache, as: :hidden %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, "Update info", class: "btn btn-block", style: "background:#7d1e1b; color:white; border: #7d1e1b" %>
+  </div>
+<% end %>
+
+</div>
+
+</div>
