@@ -1,0 +1,192 @@
+<% gradient_str = "-webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 65%, rgba(0, 0, 0, 0.9) 85%, rgba(0, 0, 0, 1) 100%)"  %>
+<%= render 'layouts/banner', banner_type: 'high-banner', img_url: image_path("dash_proj.jpg"), gradient: gradient_str %>
+
+
+<div class="dashboard-container">
+  <div id="user-cal-container" class="full-padded">
+    <div id="user-container">
+      <% if @user.photo.file.nil? %>
+        <div class="empty-picture-small"">
+          <p>-- No picture --</p>
+        </div>
+      <% else %>
+        <!-- <div class="user-photo text-center"> -->
+          <%= cl_image_tag @user.photo, height: 100, width: 90, crop: :fill %>
+        <!-- </div> -->
+      <% end %>
+      <div id="greeting">
+        <h2><%= "Hi #{@user.first_name}!" %></h2>
+      </div>
+    </div>
+    <div id='cal-container'>
+      <div class="simple-calendar">
+        <%= month_calendar(attribute: :show_date, events: @pairings) do |date, pairings| %>
+
+          <%= date.day %>
+
+          <% pairings.each do |pairing| %>
+            <% case pairing.status %>
+              <% when "pending" %>
+                <i class="fas fa-square pending"></i>
+              <% when "accepted" %>
+                <i class="fas fa-square accepted"></i>
+              <% when "declined" %>
+                <i class="fas fa-square declined"></i>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="show-container" >
+    <div class="pairings">
+      <div class="dashboard-title-wrapper">
+        <h1>CineFriends found</h1>
+      </div>
+      <% @pairings.each do |pairing| %>
+        <% posting =  pairing.posting %>
+        <% show =  posting.show %>
+        <% current_user_is_poster = (posting.user == @user) %>
+        <% other_user = current_user_is_poster ? pairing.user : posting.user %>
+        <div class="posting">
+          <div class="film-name">
+            <h3><%= show.movie.title.upcase %></h3>
+          </div>
+            <!-- <div class="pairing-status-label">
+              <div>Accepted</div>
+            </div> -->
+          <div class="movie-friend-container">
+            <!-- <div class="pairing-status-frame"></div> -->
+            <div class="movie-container" >
+              <%# link_to posting_path(posting) do %>
+                <div class="thumb-wrapper">
+                  <% if show.movie.poster.nil? %>
+                    <div class="empty-thumbnail">
+                      <p>-- No picture --</p>
+                    </div>
+                  <% else %>
+                    <%= cl_image_tag show.movie.poster, height: 300, width: 200 %>
+                  <% end %>
+                </div>
+              <%# end %>
+            </div>
+
+            <div class="friend-container">
+              <!-- <div class="user-card-wrapper"> -->
+                <!-- <div class="pair-user-wrapper"> -->
+                  <div class="cardimageuser", style="background-image: url(<%= other_user.photo.url %>);">
+                  </div>
+                    <div class="card-info1user">
+                      <%= other_user.first_name %>
+                    </div>
+                    <div class="card-info2user">
+                       <span class="glyphicon glyphicon-time "></span>   <%= posting.show.time.strftime("%-H:%M") %>
+                    </div>
+                    <div class="card-info3user">
+                      <span class="glyphicon glyphicon-calendar "></span>  <%= Date.today.year == posting.show.date.year ? posting.show.date.strftime("%-d %B") : posting.show.date.strftime("%-d %B %Y")%>
+                    </div>
+                    <div class="card-info4user"> <span class="glyphicon glyphicon-facetime-video"></span>
+                      <%= posting.show.theater.name %>
+                    </div>
+                  <!-- </div>
+                </div> -->
+              </div>
+            </div>
+            <% if current_user_is_poster %>
+              <div class="div-pairing-origin">
+                <%= other_user.first_name %> replied to your post on <%= pairing.created_at.strftime("%-d %B") %> at <%= pairing.created_at.strftime("%-H:%M") %>.
+              </div>
+              <% case pairing.status #"#"%>
+              <% when "pending" %>
+                <div class="div-pairing-status pending">
+                  <div>
+                    Your reply is pending...
+                  </div>
+                  <%= link_to "Accept", accept_path(pairing), class: "btn-sm btn-success" %>
+                  <%= link_to "Decline", decline_path(pairing), class: "btn-sm btn-danger" %>
+                </div>
+              <% when "accepted" %>
+                <div class="div-pairing-status accepted">
+                  <div>
+                    You accepted on <%= pairing.updated_at.strftime("%-d %B") %> at <%= pairing.updated_at.strftime("%-H:%M") %>.
+                  </div>
+                  <%= link_to "Cancel", decline_path(pairing), class: "btn-sm btn-danger" %>
+                  <%= link_to "Message", "#", class: "btn-sm btn-primary" %>
+                </div>
+              <% when "declined" %>
+                <div class="div-pairing-status declined">
+                  <div>
+                    You declined on <%= pairing.updated_at.strftime("%-d %B") %> at <%= pairing.updated_at.strftime("%-H:%M") %>.
+                  </div>
+                  <%= link_to "Accept", accept_path(pairing), class: "btn-sm btn-success" %>
+                </div>
+              <% end %>
+            <% else %>
+              <div class="div-pairing-origin">
+                You replied to <%= other_user.first_name.possessive %> post on <%= pairing.created_at.strftime("%-d %B") %> at <%= pairing.created_at.strftime("%-H:%M") %>.
+              </div>
+              <% case pairing.status %>
+              <% when "pending" %>
+                <div class="div-pairing-status pending">
+                  Waiting for <%= other_user.first_name.possessive %> answer...
+                </div>
+              <% when "accepted" %>
+                <div class="div-pairing-status accepted">
+                  <div>
+                    <%= other_user.first_name %> accepted on <%= pairing.updated_at.strftime("%-d %B") %> at <%= pairing.updated_at.strftime("%-H:%M") %>.
+                  </div>
+                  <%= link_to "Message", "#", class: "btn-sm btn-primary" %>
+                </div>
+              <% when "declined" %>
+                <div class="div-pairing-status declined">
+                  <div>
+                    <%= other_user.first_name %> declined on <%= pairing.updated_at.strftime("%-d %B") %> at <%= pairing.updated_at.strftime("%-H:%M") %>.
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        <!-- </div> -->
+      <% end %>
+    </div>
+    <div class="unmatched-postings">
+      <div class="dashboard-title-wrapper">
+        <h1>Your postings</h1>
+      </div>
+      <% @unmatched_postings.each do |posting| %>
+        <% show = posting.show  %>
+        <div class="posting">
+          <div class="movie-container" >
+            <%# link_to posting_path(posting) do %>
+              <h3><%= show.movie.title %></h3>
+              <div class="thumb-wrapper">
+                <% if show.movie.poster.nil? %>
+                  <div class="empty-thumbnail">
+                    <p>-- No picture --</p>
+                  </div>
+                <% else %>
+                  <%= cl_image_tag show.movie.poster, height: 300, width: 200 %>
+                <% end %>
+              </div>
+              <div >
+                <div class="posting-info">
+                  <div>
+                      <span class="glyphicon glyphicon-calendar "></span>  <%= Date.today.year == posting.show.date.year ? posting.show.date.strftime("%-d %B") : posting.show.date.strftime("%-d %B %Y")%> <span class="glyphicon glyphicon-time "></span>   <%= posting.show.time.strftime("%-H:%M") %>
+                  </div>
+                  <div>
+                    <%= posting.show.theater.name.upcase %>
+                  </div>
+                </div>
+              </div>
+            <%# end %>
+            <div class="div-pairing-status" >
+              <%= link_to "Edit posting", "#", class: "btn-sm" %>
+              <%= link_to "Remove posting", posting_path(posting), class: "btn-sm btn-danger", method: :delete %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

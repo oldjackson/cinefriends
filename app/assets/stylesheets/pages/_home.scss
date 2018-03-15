@@ -73,7 +73,7 @@
   background-position: center;
   color: white;
   position: relative;
-  background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.2)), url(image_path("sample_film.jpeg"));
+  background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.2)), url(image_path("sample_film.jpg"));
 }
 .card2 {
   height: 300px;
@@ -154,7 +154,7 @@
 .cardimage1 {
   height: 300px;
   width: 200px;
-  background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.2)), url(image_path("sample_film.jpeg"),);
+  background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.2)), url(image_path("sample_film.jpg"),);
   background-size: cover !important;
   border-radius:5px 5px 0px 0px;
 }

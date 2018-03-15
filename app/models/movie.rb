@@ -34,4 +34,12 @@ class Movie < ApplicationRecord
     using: {
       tsearch: { prefix: true }
     }
+
+  def list_available_dates
+    shows.map { |s| s.date }
+  end
+
+  def find_theaters_by_date(date)
+    theaters.joins(:shows).where('shows.date = ?', date).distinct(:true)
+  end
 end

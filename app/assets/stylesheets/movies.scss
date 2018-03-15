@@ -71,4 +71,40 @@
   background-color: rgb(125, 30, 27) !important;
 }
 
+#my-postings {
+  margin-left: 30px;
+  width: 380px !important;
+}
 
+.my-posting {
+  width: 280px;
+  background-color: $dim-white;
+  border-radius: 3px;
+  color: black;
+  padding: 10px;
+  margin: 20px 0;
+}
+
+.posting-el {
+  margin: 2px;
+  font-size: 18px;
+}
+
+.edit-post-btn {
+  display:flex;
+  justify-content: center;
+}
+
+#my-posting-title-wrapper {
+  // margin-top: 180px;
+  display: flex;
+  justify-content: center;
+  position: sticky !important; /* !important to override Gmaps inline CSS */
+  top: 0 !important;
+  z-index: 2;
+  background-color: black;
+  strong {
+    color: $dark-red;
+  }
+  padding-bottom: 20px;
+}

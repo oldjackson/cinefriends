@@ -3,14 +3,23 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>CineFriends</title>
+    <title>CineFriends - Find your fellow cinema lover</title>
     <%= csrf_meta_tags %>
     <%= action_cable_meta_tag %>
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= favicon_link_tag 'frame.png' %>
+    <!-- Open graph (Facebook) -->
+    <meta property="og:title" content="CineFriends">
+    <meta property="og:description" content="Where Cinema Lovers Find Each Other.">
+    <meta property="og:site_name" content="CineFriends">
+    <meta property="og:image" content="<%= image_path("banner-fb.jpg")%>"> <!-- 1200x630 -->
+    <meta property="og:url" content="http://www.cinefriends.club/page.html">
+    <meta property="og:type" content="article">
     <%#= stylesheet_pack_tag 'application', media: 'all' %> <!-- Uncomment if you import CSS in app/javascript/packs/application.js -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_red.css">
   </head>
   <body>
     <%= render "layouts/navbar" %>
@@ -24,6 +33,7 @@
       <%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?libraries=places&key=#{ENV['GOOGLE_API_BROWSER_KEY']}" %>
       <%= javascript_pack_tag 'application' %>
       <%= javascript_pack_tag 'maps' %>
+      <%= yield :after_js %>
   </body>
 
 </html>

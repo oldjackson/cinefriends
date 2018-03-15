@@ -4,9 +4,9 @@
   "dependencies": {
     "@rails/webpacker": "^3.3.0",
     "bootstrap": "3",
+    "flatpickr": "^4.3.2",
     "gmaps": "^0.4.24",
-    "jquery": "^3.3.1",
-    "rails-erb-loader": "^5.4.1"
+    "jquery": "^3.3.1"
   },
   "devDependencies": {
     "webpack-dev-server": "^3.1.0"

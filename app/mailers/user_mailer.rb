@@ -9,7 +9,7 @@ class UserMailer < ApplicationMailer
     @user = user  # Instance variable => available in view
 
     mail(
-      to: @user.email,
+      to: "carly.k.p@gmail.com",
       subject: 'Welcome to CineFriends'
       )
     # This will render a view in `app/views/user_mailer`!

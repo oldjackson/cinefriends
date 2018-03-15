@@ -1,0 +1,59 @@
+function clearForm(){
+  const formSelect = document.getElementById('post_form');
+  if (formSelect) {
+    formSelect.reset();
+  }
+
+  const theaterSelect = document.getElementById('show_theater');
+  if (theaterSelect) {
+    const theaterSelectLength = theaterSelect.options.length;
+    for (let i=1; i<theaterSelectLength; i++ ){
+      theaterSelect.options[i] = null;
+    }
+    theaterSelect.disabled = true;
+  }
+
+  const timeSelect = document.getElementById('show_time');
+  if (timeSelect) {
+    const timeSelectLength = timeSelect.options.length;
+    for (let i=1; i<timeSelectLength; i++ ){
+      timeSelect.options[i] = null;
+    }
+    timeSelect.disabled = true;
+  }
+
+  const btnSelect = document.getElementById('new_post_btn');
+  if (btnSelect) {
+    btnSelect.disabled = true;
+  }
+}
+
+function htmlToElement(html) {
+    var template = document.createElement('template');
+    html = html.trim(); // Never return a text node of whitespace as the result
+    template.innerHTML = html;
+    return template.content.firstChild;
+}
+
+// check if saved
+<% if @posting.persisted?  %>
+  // 1. create html for posting
+  // debugger;
+  const newPostingHtml = "<%= j render 'show', show: @posting.show %>"
+
+  // 2. append new posting to list
+  let postingContainer = document.getElementById('posting-cardlets');
+  const teaserSelect = document.getElementById('no-postings-teaser');
+  if (teaserSelect) {
+    postingContainer.removeChild(teaserSelect);
+  }
+
+  postingContainer.insertBefore(htmlToElement(newPostingHtml), postingContainer.children[<%= @new_post_ind %>]);
+  // postingContainer.children[<%= @new_post_ind %>].insertAdjacentHTML('afterbegin', newPosting)
+
+  // 3. Clear the form
+  clearForm();
+
+<% else %>
+  alert("The posting could not be made.\n<%= @posting.errors.messages[:show][0] %>")
+<% end %>

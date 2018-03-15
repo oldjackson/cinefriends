@@ -1,0 +1,17 @@
+<div class="my-posting">
+  <div class="posting-el">
+    <span class="glyphicon glyphicon-calendar "></span>
+    <%= Date.today.year == show.date.year ? show.uf_date : show.uf_date_long%>
+  </div>
+  <div class="posting-el">
+    <span class="glyphicon glyphicon-facetime-video "></span>
+    <%= show.theater.name %>
+  </div>
+  <div class="posting-el">
+    <span class="glyphicon glyphicon-time "></span>   <%= show.time.strftime("%-H:%M") %>
+  </div>
+
+  <div class="edit-post-btn">
+    <%= link_to "Edit posting", "#", class: "btn-sm" %>
+  </div>
+</div>

@@ -28,7 +28,7 @@ class PairingsController < ApplicationController
   end
 
   def create
-    # binding.pry
+
     @pairing = Pairing.new(posting: @posting, user: @user)
     if @pairing.save
       PairingMailer.creation_confirmation(@pairing).deliver_now
@@ -68,7 +68,7 @@ class PairingsController < ApplicationController
   end
 
   def set_pairing
-    # binding.pry
+
     @pairing = Pairing.find(params[:id])
     unless @pairing.posting.user == current_user || @pairing.user == current_user
       redirect_to dashboard_path, alert: "You cannot alter this appointment."

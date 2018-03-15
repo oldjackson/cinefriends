@@ -1,0 +1,31 @@
+
+        <div class="posting">
+          <div class="movie-container" style="background-image: url(<%= image_path("film-strip.jpg") %>);" >
+            <%# link_to posting_path(posting) do %>
+              <h3><%= show.movie.title %></h3>
+              <div class="thumb-wrapper">
+                <% if show.movie.poster.nil? %>
+                  <div class="empty-thumbnail">
+                    <p>-- No picture --</p>
+                  </div>
+                <% else %>
+                  <%= cl_image_tag show.movie.poster, height: 300, width: 200 %>
+                <% end %>
+              </div>
+              <div >
+                <div class="posting-info">
+                  <div>
+                      <span class="glyphicon glyphicon-calendar "></span>  <%= Date.today.year == posting.show.date.year ? posting.show.date.strftime("%-d %B") : posting.show.date.strftime("%-d %B %Y") %> <span class=" glyphicon glyphicon-time "></span>   <%=  posting.show.time.strftime("%-H:%M") %>
+                  </div>
+                  <div>
+                    <span class=" glyphicon glyphicon-facetime-video "></span><%= posting.show.theater.name.upcase %>
+                  </div>
+                </div>
+              </div>
+            <%# end %>
+            <div class="div-pairing-status" >
+              <%= link_to "Edit posting", "#", class: "btn-sm" %>
+              <%= link_to "Remove posting", posting_path(posting), class: "btn-sm btn-danger", method: :delete %>
+            </div>
+          </div>
+        </div>

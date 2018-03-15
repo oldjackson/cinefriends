@@ -1,11 +1,10 @@
 <div class="simple-calendar">
   <div class="calendar-heading">
-    <%# binding.pry %>
     <% prev_month = Date.parse(calendar.url_for_previous_view.partition('=').last,'%Y-%m-%d').strftime('%b') %>
     <% next_month = Date.parse(calendar.url_for_next_view.partition('=').last,'%Y-%m-%d').strftime('%b') %>
-    <%= link_to t('simple_calendar.previous', default: "‹‹ #{prev_month}"), calendar.url_for_previous_view %>
+    <%= link_to t('simple_calendar.previous', default: "‹‹ #{prev_month}"), calendar.url_for_previous_view, remote: :true %>
     <span class="calendar-title"><%= t('date.month_names')[start_date.month] %> <%= start_date.year %></span>
-    <%= link_to t('simple_calendar.next', default: "#{next_month} ››" ), calendar.url_for_next_view %>
+    <%= link_to t('simple_calendar.next', default: "#{next_month} ››" ), calendar.url_for_next_view, remote: :true %>
   </div>
 
   <table class="table table-striped">

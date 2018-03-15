@@ -8,7 +8,7 @@ default: &default
 
   # Additional paths webpack should lookup modules
   # ['app/assets', 'engine/foo/app/assets']
-  resolved_paths: []
+  resolved_paths: ['app/assets']
 
   # Reload manifest.json on all requests so we reload latest compiled packs
   cache_manifest: false
@@ -25,7 +25,6 @@ default: &default
     - .png
     - .svg
     - .gif
-    - .jpeg
     - .jpg
 
 development:
@@ -51,7 +50,6 @@ development:
     watch_options:
       ignored: /node_modules/
 
-
 test:
   <<: *default
   compile: true
@@ -63,7 +61,7 @@ production:
   <<: *default
 
   # Production depends on precompilation of packs prior to booting for performance.
-  compile: false
+  compile: true
 
   # Cache manifest.json for performance
   cache_manifest: true

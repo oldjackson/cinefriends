@@ -1,0 +1,12 @@
+<%= form_tag postings_path, method: :post, id: 'post_form', remote: true do %>
+  <div class="form-group">
+    <%= text_field_tag "show_date", nil, class: "form-control", placeholder: "Date...", data: { dates: @dates.to_json} %>
+  </div>
+  <div class="form-group">
+    <%= select_tag "show_theater", options_from_collection_for_select([], "id", "name"), {class: "form-control", disabled: true, include_blank: true } %>
+  </div>
+  <div class="form-group">
+    <%= select_tag "show_time", options_from_collection_for_select([], "id", "name"), {class: "form-control", disabled: true, include_blank: true } %>
+  </div>
+  <%= submit_tag 'Post', id: 'new_post_btn', class: "btn btn-search btn-block", disabled: true %>
+<% end %>

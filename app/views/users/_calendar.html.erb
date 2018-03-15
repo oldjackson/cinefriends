@@ -1,0 +1,17 @@
+<div class="simple-calendar" id="dashboard-calendar">
+  <%= month_calendar(attribute: :show_date, events: pairings) do |date, pairings| %>
+
+    <%= date.day %>
+
+    <% pairings.each do |pairing| %>
+      <% case pairing.status %>
+        <% when "pending" %>
+          <i class="fas fa-square pending"></i>
+        <% when "accepted" %>
+          <i class="fas fa-square accepted"></i>
+        <% when "declined" %>
+          <i class="fas fa-square declined"></i>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

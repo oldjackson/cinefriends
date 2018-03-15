@@ -3,74 +3,99 @@
 <% gradient_str = "-webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 90%, rgba(0, 0, 0, 1) 100%)"  %>
 
 <%= render 'layouts/banner', banner_type: 'high-banner', img_url: img_url, gradient: gradient_str %>
-<!-- <div class="wide-container"> -->
 
-  <div class="movie-title-wrapper">
-    <h1>CineFriends for <span style="display:inline-block;"></span><strong><%=@movie.title %></strong></h1>
-  </div>
-  <div class="main-container">
-    <div id="poster-container" class= "vert-padded" >
-      <div class="cardfilm-large">
-        <% if @movie.poster.file.nil? %>
-          <div class="empty-poster">
-            <p>-- No picture --</p>
-          </div>
-        <% else %>
-          <div class="poster">
-            <%= cl_image_tag @movie.poster, height: 450, width: 300 %>
-          </div>
-        <% end %>
+<div class="movie-title-wrapper">
+  <h1>CineFriends for <span style="display:inline-block;"></span><strong><%=@movie.title %></strong></h1>
+</div>
 
-        <div class="movie-label">
-          <div class="film-name-large">
-            <h2><%= @movie.title %></h2>
-            </div>
-          <div class="film-director-large"><%= "#{@movie.director}" %></div>
+<div class="main-container">
+  <div id="poster-container" class="vert-padded">
+    <div class="cardfilm-large">
+      <% if @movie.poster.file.nil? %>
+        <div class="empty-poster">
+          <p>-- No picture --</p>
+        </div>
+      <% else %>
+        <div class="poster">
+          <%= cl_image_tag @movie.poster, height: 450, width: 300 %>
+        </div>
+      <% end %>
+
+      <div class="movie-label">
+        <div class="film-name-large">
+          <h2><%= @movie.title %></h2>
+        </div>
+        <div class="film-director-large">
+          <%= "#{@movie.director}" %>
         </div>
       </div>
     </div>
+  </div>
 
-    <div id="postings-container">
-      <% if @postings.nil? || @postings.empty? %>
-        <div class="post-button-container">
-          <h1>Seems no one is going yet... </h1>
-          <%= link_to "Post me for this movie!", "#", class: "btn btn-md" %>
-        </div>
-      <% else %>
-        <div class="row">
-          <% @postings.each do |posting| %>
-            <div class="col-xs-12 col-sm-6 vert-padded">
-              <div class="user-card-wrapper">
-                <div class="carduser", style="background-image: url(<%= image_path("film-strip.jpeg") %>);">
+  <div id="postings-container">
+    <% if @postings.nil? || @postings.empty? %>
+      <div class="post-button-container">
+        <h1>Seems no one is going yet... </h1>
+        <%#= link_to "Post me for this movie!", "#", class: "btn btn-md" %>
+      </div>
+    <% else %>
+      <div class="row">
+        <% @postings.each do |posting| %>
+          <div class="col-xs-12 vert-padded">
+            <div class="user-card-wrapper">
+              <div class="carduser", style="background-image: url(<%= image_path("film-strip.jpg") %>);">
 
-                  <div class="cardimageuser grow">
+                <div class="cardimageuser grow">
                   <%= link_to image_tag(posting.user.photo.url, style: "height: 150px; width: 150px; border-radius:100%;"), {controller: "users", action: "show", id: posting.user.id} %>
-                  </div>
-
-                    <div class="card-info">
-                      <div class="card-info1user">
-                        <%= posting.user.first_name %>
-                      </div>
-                      <div class="card-info2user">
-                        <span class="glyphicon glyphicon-time "></span>   <%= posting.show.time.strftime("%-H:%M") %>
-                      </div>
-                      <div class="card-info3user">
-                        <span class="glyphicon glyphicon-calendar "></span>  <%= Date.today.year == posting.show.date.year ? posting.show.date.strftime("%-d %B") : posting.show.date.strftime("%-d %B %Y")%>
-                      </div>
-                      <div class="card-info4user"><span class="glyphicon glyphicon-facetime-video "></span>
-                        <%= posting.show.theater.name %>
-                      </div>
-                    </div>
-                    <%= link_to posting_pairings_path(posting), method: :post do %>
-                      <div class="btnadduser grow"></div>
-                    <% end %>
                 </div>
+
+                <div class="card-info">
+                  <div class="card-info1user">
+                    <%= posting.user.first_name %>
+                  </div>
+                  <div class="card-info2user">
+                    <span class="glyphicon glyphicon-time "></span>   <%= posting.show.uf_time %>
+                  </div>
+                  <div class="card-info3user">
+                    <span class="glyphicon glyphicon-calendar "></span>  <%= Date.today.year == posting.show.date.year ? posting.show.uf_date : posting.show.uf_date_long%>
+                  </div>
+                  <div class="card-info4user"><span class="glyphicon glyphicon-facetime-video "></span>
+                    <%= posting.show.theater.name %>
+                  </div>
+                </div>
+
+                <%= link_to posting_pairings_path(posting), method: :post do %>
+                  <div class="btnadduser grow"></div>
+                <% end %>
+
               </div>
             </div>
-          <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <div id="my-postings">
+    <div id="my-posting-title-wrapper">
+      <div>
+        <h2>Your postings</h2>
+        <div id="posting-form">
+          <%= render 'postings/form', posting: @posting, movie: @movie %>
         </div>
+      </div>
+    </div>
+    <div id="posting-cardlets">
+      <% if @your_postings.blank? %>
+        <div id="no-postings-teaser">
+          Post a show to find a CineFriend...
+        </div>
+      <% else %>
+        <% @your_postings.each do |posting| %>
+          <%= render 'postings/show', show: posting.show %>
+        <% end %>
       <% end %>
     </div>
+  </div>
 
-  <!-- </div> -->
 </div>

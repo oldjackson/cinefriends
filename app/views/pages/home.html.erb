@@ -1,12 +1,10 @@
 <% gradient_str = "-webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, 1) 100%)"  %>
-<%= render 'layouts/banner', banner_type: 'banner', img_url: image_path("banner_photo.jpeg"), gradient: gradient_str %>
+<%= render 'layouts/banner', banner_type: 'banner', img_url: asset_path("banner_photo.jpg", type: :image), gradient: gradient_str %>
 <div class="container">
   <div class="welcome-content">
     <div class="big-logo-wrapper">
       <div class="big-logo blurrer">
-
           <h1>CineFriends</h1>
-
       </div>
     </div>
     <br>
